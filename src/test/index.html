@@ -1,0 +1,29 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+  <canvas class="chartjs">
+    { "type": "pie", "data": { "labels": [ "Red", "Blue", "Yellow" ], "datasets": [ { "data": [ 300, 50, 100 ],
+    "backgroundColor": [ "#FF6384", "#36A2EB", "#FFCE56" ], "hoverBackgroundColor": [ "#FF6384", "#36A2EB", "#FFCE56" ]
+    } ] }, "options": {} }
+  </canvas>
+  <div class="code-line" data-line="32"></div>
+  <script src="../../node_modules/chart.js/dist/Chart.min.js"></script>
+  <script>
+    var ctx = document.getElementsByClassName("chartjs")[0].getContext("2d");
+    console.log("Found: ", ctx);
+    new Chart(ctx, {
+      "type": "pie", "data": {
+        "labels": ["Red", "Blue", "Yellow"], "datasets": [{
+          "data": [300, 50, 100],
+          "backgroundColor": ["#FF6384", "#36A2EB", "#FFCE56"], "hoverBackgroundColor": ["#FF6384", "#36A2EB", "#FFCE56"]
+        }]
+      }, "options": {}
+    });
+  </script>
+</body>
+
+</html>

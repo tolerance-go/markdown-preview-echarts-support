@@ -1,34 +1,43 @@
-import * as vscode from 'vscode';
-import { EChartsContentProvider } from './echartsProvider';
+"use strict";
+// The module 'vscode' contains the VS Code extensibility API
+// Import the module and reference it with the alias vscode in your code below
+import * as vscode from "vscode";
 
+// this method is called when your extension is activated
+// your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-    console.log('Markdown Preview ECharts Support 插件已激活');
+  console.log('Extension activation started');
+  
+  // 注册命令用于测试
+  let disposable = vscode.commands.registerCommand('echarts-preview.test', () => {
+    console.log('Test command executed');
+  });
+  
+  context.subscriptions.push(disposable);
+  
+  console.log('Extension activation completed');
+  
+  // Use the console to output diagnostic information (console.log) and errors (console.error)
+  // This line of code will only be executed once when your extension is activated
+  console.log(
+    'Congratulations, your extension "ECharts-markdown-preview" is now active!'
+  );
+  return {
+    extendMarkdownIt(md) {
+      const highlight = md.options.highlight;
 
-    // 注册自定义预览内容提供程序
-    const provider = new EChartsContentProvider(context);
-    console.log('ECharts 内容提供程序已注册');
-    
-    // 注册命令
-    let disposable = vscode.commands.registerCommand('markdown-preview-echarts-support.preview', () => {
-        const editor = vscode.window.activeTextEditor;
-        if (editor) {
-            const uri = editor.document.uri;
-            console.log('正在预览文件:', uri.fsPath);
-            // 创建预览
-            vscode.commands.executeCommand(
-                'markdown.showPreview',
-                uri
-            ).then(() => {
-                console.log('预览窗口已打开');
-            });
-        } else {
-            console.log('没有打开的编辑器');
+      md.options.highlight = (code, lang) => {
+        if (lang && lang.match(/\becharts\b/i)) {
+          return `<canvas class="chartjs">${code.trim()}</canvas>`;
         }
-    });
 
-    context.subscriptions.push(disposable);
+        return highlight(code, lang);
+      };
+
+      return md;
+    }
+  };
 }
 
-export function deactivate() {
-    console.log('Markdown Preview ECharts Support 插件已停用');
-} 
+// this method is called when your extension is deactivated
+export function deactivate() { }
